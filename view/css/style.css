@@ -1,0 +1,37 @@
+html,body {
+	padding-top: 1rem;
+}
+#question {
+	height:300px;
+	margin:0 2rem 2rem;
+	word-wrap:break-word;
+	overflow:auto;
+}
+.input {
+	display: inline-block;
+	width: 5rem;
+}
+.button {
+	outline: none !important;
+	width: 100%;
+	color: lightblue;
+	background: transparent;
+	border: 2px solid lightblue;
+	border-radius: 6px;
+	padding: 8px 32px;
+	text-align: center;
+	font-size: 16px;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+.button:hover {
+	background: lightblue;
+	color: black;
+}
+#write {
+	padding:1rem;
+	min-height:300px;
+}

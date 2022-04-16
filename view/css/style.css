@@ -6,6 +6,7 @@ html,body {
 	margin:0 2rem 2rem;
 	word-wrap:break-word;
 	overflow:auto;
+	line-height: 2rem;
 }
 .input {
 	display: inline-block;

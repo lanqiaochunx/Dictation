@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Dictation</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<script src="https://cdn.bootcdn.net/ajax/libs/limonte-sweetalert2/11.1.0/sweetalert2.all.js"></script>
+		<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+		<script src="./js/Dictation.js"></script>
+	</head>
+	<body>
+		<nav id="nav" class="navbar navbar-expand-sm bg-light navbar-light fixed-top">
+			<a class="navbar-brand" href="#">Dictation</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
+				<span class="navbar-toggler-icon"></span>
+		    </button>
+			<div class="collapse navbar-collapse" id="Navbar">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#">index</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="share.html">share</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="container">
+			<div id="main">
+				<h2>预览</h2>
+				<a href="#" id="download">下载到本地</a>&nbsp;&nbsp;<a href="#" id="share">复制分享链接</a>
+				<div id="question"><p v-html="render(text)"></p></div>
+				<p>得分率：<span id="score"></span>%</p>
+				<button type="button" class="button">检查</button>
+				<div class="form-group">
+					<label for="write">自定义测试内容：</label>
+					<textarea class="form-control" id="write" v-model="text"></textarea>
+				</div>
+			</div>
+			<script>
+				const Toast = Swal.mixin({
+					toast: true,
+					position: 'top-end',
+					showConfirmButton: false,
+					timer: 3000,
+					timerProgressBar: true,
+					didOpen: (toast) => {
+						toast.addEventListener('mouseenter', Swal.stopTimer)
+						toast.addEventListener('mouseleave', Swal.resumeTimer)
+					}
+				})
+				function downloadFile(fileName, content) {
+					const aTag = document.createElement('a');
+					const blob = new Blob([content]);
+				   
+					aTag.download = fileName;
+					aTag.style = "display: none";
+					aTag.href = URL.createObjectURL(blob);
+					document.body.appendChild(aTag);
+					aTag.click();
+				   
+					setTimeout(function () {
+					  document.body.removeChild(aTag);
+					  window.URL.revokeObjectURL(blob);
+					}, 100);
+				}
+				$(document).ready(function(){
+					a.set();
+				});
+				var a = new Cor();
+				var vm = new Vue({
+					el: "#main",
+					data: {
+						text: "创建输入框：[正确答案]  \n换行：行末敲两个空格"
+					},
+					methods: {
+						// 渲染
+						render: function(text){
+							return a.render(text);
+						},
+						// 检查答案
+						check: function(){
+							return a.check();
+						}
+					}
+				});
+				$(".button").click(function (){
+					$("#score").text(vm.check());
+				});
+				$("#download").click(function(){
+					downloadFile("download.dic",$("#write").val());
+				});
+				var clipboard = new ClipboardJS('#share',{
+					text: function() {
+						return "https://lanqiaochunx.github.io/Dictation/view/share.html?wd="+$("#write").val().replace(/[\n]/g,"<br>");
+					}
+				});
+				clipboard.on('success', function(e){ 
+					Toast.fire({
+						text:'已经复制到你的粘贴板',
+						icon:'success'
+					})
+					e.clearSelection();
+				});
+			</script>
+		</div>
+	</body>
+</html>
